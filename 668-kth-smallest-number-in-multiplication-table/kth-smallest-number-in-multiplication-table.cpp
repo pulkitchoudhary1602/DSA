@@ -1,27 +1,26 @@
 class Solution {
 public:
-    int findKthNumber(int n, int m, int k) {  //n->no of rows, m->no of cols
-        int low=0;
-        int high=n*m;
-        int ans=0;
-        while(low<=high){
-            int mid=low+(high-low)/2;
-            if(countless(n,m,k,mid)){
-                ans=mid;
-                high=mid-1;
+    int findKthNumber(int m, int n, int k) {
+        int low = 1;
+        int high = m * n;
+        int ans = high;
+
+        while (low <= high) {
+            int guess = low + (high - low) / 2;
+
+            int count = 0;
+            for (int i = 1; i <= m; i++) {
+                count += min(n, guess / i);
             }
-            else{
-                low=mid+1;
+
+            if (count >= k) {
+                ans = guess;
+                high = guess - 1;
+            } else {
+                low = guess + 1;
             }
         }
+
         return ans;
-    }
-    bool countless(int n, int m, int k,int guess){
-        int count=0;
-        for(int i=1;i<=n;i++){
-            count=count+min(m,guess/i);
-        }
-        if(count<k) return false;
-        else return true;
     }
 };
