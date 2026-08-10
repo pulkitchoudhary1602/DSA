@@ -1,27 +1,15 @@
 class Solution {
 public:
-    bool canConstruct(string s1, string s2) {
-
-        sort(s1.begin(), s1.end());
-        sort(s2.begin(), s2.end());
-
-        int n1 = s1.size();
-        int n2 = s2.size();
-
-        int l = 0;
-        int r = 0;
-
-        while (l < n1 && r < n2) {
-
-            if (s1[l] == s2[r]) {
-                l++;
-                r++;
-            }
-            else {
-                r++;
-            }
+    bool canConstruct(string ransomNote, string magazine) {
+        unordered_map<char,int>mp;
+        unordered_map<char,int>mp1;
+        for(auto it:ransomNote)mp[it]++;
+        
+        for(auto it:magazine)mp1[it]++;
+        
+        for(auto it:mp){
+            if(it.second>mp1[it.first])return false;
         }
-
-        return l == n1;
+        return true;
     }
 };
