@@ -25,5 +25,6 @@ public:
         }
         function(root->left,sum,ans);
         function(root->right,sum,ans);
+        return;
     }
 };
