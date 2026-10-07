@@ -1,76 +1,48 @@
 class Solution {
 public:
-    unordered_set<string> ans;
-
-    void dfs(string &s, int index, int leftRemove, int rightRemove,
-             int balance, string curr) {
-        if (index == s.size()) {
-            if (leftRemove == 0 && rightRemove == 0 && balance == 0) {
-                ans.insert(curr);
-            }
-            return;
-        }
-
-        char ch = s[index];
-
-        if (ch == '(') {
-
-            // Remove 
-            if (leftRemove > 0) {
-                dfs(s, index + 1, leftRemove - 1, rightRemove,
-                    balance, curr);
-            }
-
-            // Keep 
-            dfs(s, index + 1, leftRemove, rightRemove,
-                balance + 1, curr + ch);
-        }
-
-        else if (ch == ')') {
-
-            // Remove 
-            if (rightRemove > 0) {
-                dfs(s, index + 1, leftRemove, rightRemove - 1,
-                    balance, curr);
-            }
-
-            // Keep 
-            if (balance > 0) {
-                dfs(s, index + 1, leftRemove, rightRemove,
-                    balance - 1, curr + ch);
-            }
-        }
-
-        else {
-            dfs(s, index + 1, leftRemove, rightRemove,
-                balance, curr + ch);
-        }
-    }
-
     vector<string> removeInvalidParentheses(string s) {
-
-        int balance = 0;
-        int leftRemove = 0;
-        int rightRemove = 0;
-        for (char ch : s) {
-            if (ch == '(') {
-                balance++;
+        queue<string>q;
+        unordered_set<string>vis;
+        vector<string>ans;
+        q.push(s);
+        while(!q.empty()){
+            int n=q.size();
+            bool found=false;
+            while(n--){
+                string curr=q.front();
+                q.pop();
+                if(valid(curr)){
+                    ans.push_back(curr);
+                    found=true;
+                }
+                if(found) continue;
+                for(int i=0;i<curr.size();i++){
+                    if(curr[i]!='(' && curr[i]!=')'){
+                        continue;
+                    }
+                    string next=curr.substr(0,i)+curr.substr(i+1);
+                    if(vis.count(next)==0){
+                        vis.insert(next);
+                        q.push(next);
+                    }
+                }
             }
-            else if (ch == ')') {
-
-                if (balance > 0) {
-                    balance--;
-                }
-                else {
-                    rightRemove++;
-                }
+            if(found) break;
+        }
+        return ans;
+    }
+    bool valid(string s){
+        int cnt=0;
+        int n=s.size();
+        for(int i=0;i<n;i++){
+            if(s[i]=='('){
+                cnt++;
+            }
+            else if(s[i]==')'){
+                cnt--;
+                if(cnt<0) return false;
             }
         }
-
-        leftRemove = balance;
-
-        dfs(s, 0, leftRemove, rightRemove, 0, "");
-
-        return vector<string>(ans.begin(), ans.end());
+        return cnt==0;
     }
 };
