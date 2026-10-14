@@ -6,7 +6,7 @@ public:
         int l=0,r=0,maxi=0;
         while(r<n){
             mpp[arr[r]]++;
-            while(mpp.size()>2){
+            if(mpp.size()>2){
                 mpp[arr[l]]--;
                 if(mpp[arr[l]]==0){
                     mpp.erase(arr[l]);
