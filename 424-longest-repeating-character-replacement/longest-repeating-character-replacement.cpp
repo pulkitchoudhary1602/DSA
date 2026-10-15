@@ -9,14 +9,9 @@ public:
             mpp[s[r]-'A']++;
             len=r-l+1;
             maxfreq=max(maxfreq,mpp[s[r]-'A']);
-            while(len-maxfreq>k){
+            if(len-maxfreq>k){
                 mpp[s[l]-'A']--;
-                maxfreq=0;
-                for(int i=0;i<26;i++){
-                    maxfreq=max(maxfreq,mpp[i]);
-                }
                 l++;
-                len=r-l+1;
             }
             if(len-maxfreq<=k){
                 maxi=max(maxi,len);
