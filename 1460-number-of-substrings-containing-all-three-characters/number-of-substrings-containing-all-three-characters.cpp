@@ -1,17 +1,17 @@
 class Solution {
 public:
     int numberOfSubstrings(string s) {
-        int n=s.size(),l=0,r=0,cnt=0;
-        int freq[3]={0};
-        while(r<n){
-            freq[s[r]-'a']++;
-            while(freq[0]>0 && freq[1]>0 && freq[2]>0){
-                cnt=cnt+n-r;
-                freq[s[l]-'a']--;
-                l++;
+        int ans=0;
+        int a=-1,b=-1,c=-1;
+        int n=s.size();
+        for(int i=0;i<n;i++){
+            if(s[i]=='a') a=i;
+            else if(s[i]=='b') b=i;
+            else c=i;
+            if(a!=-1 && b!=-1 && c!=-1){
+                ans+=min({a,b,c})+1;
             }
-            r++;
         }
-        return cnt;
+        return ans;
     }
 };
