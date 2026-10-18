@@ -2,37 +2,44 @@ class Solution {
 public:
     int sumSubarrayMins(vector<int>& arr) {
         int n=arr.size();
-        vector<int>pse(n);
         vector<int>nse(n);
-        int ans=0;
-        funnse(arr,nse,n);
-        funpse(arr,pse,n);
-        int mod=(int)(1e9+7);
+        vector<int>pse(n);
+        nsee(arr,nse,n);
+        psee(arr,pse,n);
+         int total=0;
+        int mod=1e9+7;
         for(int i=0;i<n;i++){
-            int left=i-pse[i];
-            int right=nse[i]-i;
-            ans=(ans+(right*left*1ll*arr[i])%mod)%mod;
+            total=(total+(1ll*(nse[i]-i)*(i-pse[i])*arr[i])%mod)%mod;
         }
-        return ans;
+        return total;
     }
-    void funnse(vector<int>&arr,vector<int>&nse,int n){
+    void nsee(vector<int>&arr,vector<int>&nse,int n){
         stack<int>st;
         for(int i=n-1;i>=0;i--){
             while(!st.empty() && arr[st.top()]>=arr[i]){
                 st.pop();
             }
-            nse[i]=st.empty()?n:st.top();
+            if(st.empty()){
+                nse[i]=n;
+            }
+            else{
+                nse[i]=st.top();
+            }
             st.push(i);
         }
-
     }
-    void funpse(vector<int>&arr,vector<int>&pse,int n){
+    void psee(vector<int>&arr,vector<int>&pse,int n){
         stack<int>st;
         for(int i=0;i<n;i++){
             while(!st.empty() && arr[st.top()]>arr[i]){
                 st.pop();
             }
-            pse[i]=st.empty()?-1:st.top();
+            if(st.empty()){
+                pse[i]=-1;
+            }
+            else{
+                pse[i]=st.top();
+            }
             st.push(i);
         }
     }
