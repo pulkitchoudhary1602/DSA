@@ -1,9 +1,9 @@
 class Solution {
 public:
     vector<int> asteroidCollision(vector<int>& arr) {
-        vector<int>ans;
-        int n =arr.size();
+        int n=arr.size();
         stack<int>st;
+        vector<int>ans;
         for(int i=0;i<n;i++){
             if(arr[i]>0){
                 st.push(arr[i]);
