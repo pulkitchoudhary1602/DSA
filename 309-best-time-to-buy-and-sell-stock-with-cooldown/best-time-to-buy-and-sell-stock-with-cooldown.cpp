@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int maxProfit(vector<int>& arr) {
+        int n=arr.size();
+        vector<vector<int>>dp(n,vector<int>(2,-1));
+        return fun(arr,n,0,1,dp);
+    }
+    int fun(vector<int>&arr,int n,int idx,int buy,vector<vector<int>>&dp){
+        if(idx>=n) return 0;
+        if(dp[idx][buy]!=-1) return dp[idx][buy];
+        int profit=0;
+        if(buy){
+            profit=max(-arr[idx]+fun(arr,n,idx+1,0,dp),fun(arr,n,idx+1,1,dp));
+        }
+        else{
+            profit=max(arr[idx]+fun(arr,n,idx+2,1,dp),fun(arr,n,idx+1,0,dp));
+        }
+        return dp[idx][buy]= profit;
+    }
+};
