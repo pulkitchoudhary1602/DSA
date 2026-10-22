@@ -1,3 +1,4 @@
+/*
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
@@ -17,5 +18,27 @@ public:
             profit=max(prices[idx]+fun(prices,idx+1,1,n,dp),fun(prices,idx+1,0,n,dp));
         }
         return dp[idx][buy]= profit;
+    }
+};
+*/
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n=prices.size();
+        vector<vector<int>>dp(n+1,vector<int>(2,0));
+        dp[n][0]=dp[n][1]=0;
+        for(int idx=n-1;idx>=0;idx--){
+            for(int buy=0;buy<=1;buy++){
+                long profit=0;
+                if(buy){
+                 profit=max(-1*prices[idx]+dp[idx+1][0],dp[idx+1][1]);
+                }
+                else{
+                    profit=max(prices[idx]+dp[idx+1][1],dp[idx+1][0]);
+                }
+                dp[idx][buy]=profit;
+            }
+        }
+        return dp[0][1];
     }
 };
